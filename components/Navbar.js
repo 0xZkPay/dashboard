@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   useNetworkMismatch,
   useNetwork,
+  useAddress,
   ChainId,
   ConnectWallet,
 } from "@thirdweb-dev/react";
@@ -15,6 +16,8 @@ const navlinks = [
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
+
+  const address = useAddress();
 
   const [, switchNetwork] = useNetwork();
   const isMismatched = useNetworkMismatch();
@@ -53,21 +56,22 @@ const Navbar = () => {
           } w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start -mt-8 lg:mt-4 flex flex-col lg:h-auto">
-            {navlinks.map((item, index) => {
-              return (
-                <Link legacyBehavior key={index} href={item.path}>
-                  <a
-                    className={`mr-8 mt-2 lg:mt-0 lg:mr-4 text-lg font-bold lg:font-medium ${
-                      router.pathname === item.path
-                        ? "text-gray-600"
-                        : "hover:text-gray-600 text-white"
-                    }  `}
-                  >
-                    {item.title}
-                  </a>
-                </Link>
-              );
-            })}
+            {address &&
+              navlinks.map((item, index) => {
+                return (
+                  <Link legacyBehavior key={index} href={item.path}>
+                    <a
+                      className={`mr-8 mt-2 lg:mt-0 lg:mr-4 text-lg font-bold lg:font-medium ${
+                        router.pathname === item.path
+                          ? "text-gray-600"
+                          : "hover:text-gray-600 text-white"
+                      }  `}
+                    >
+                      {item.title}
+                    </a>
+                  </Link>
+                );
+              })}
             {isMismatched && (
               <button
                 className="text-purple-400 mr-4"
