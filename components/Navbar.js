@@ -1,6 +1,11 @@
 import { useState } from "react";
 import Link from "next/link";
-import { ConnectWallet } from "@thirdweb-dev/react";
+import {
+  useNetworkMismatch,
+  useNetwork,
+  ChainId,
+  ConnectWallet,
+} from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
 
 const navlinks = [
@@ -10,6 +15,9 @@ const navlinks = [
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
+
+  const [, switchNetwork] = useNetwork();
+  const isMismatched = useNetworkMismatch();
 
   const router = useRouter();
 
@@ -49,7 +57,7 @@ const Navbar = () => {
               return (
                 <Link legacyBehavior key={index} href={item.path}>
                   <a
-                    className={`mr-8 mt-2 lg:mt-0 lg:mr-10 text-lg font-bold lg:font-medium ${
+                    className={`mr-8 mt-2 lg:mt-0 lg:mr-4 text-lg font-bold lg:font-medium ${
                       router.pathname === item.path
                         ? "text-gray-600"
                         : "hover:text-gray-600 text-white"
@@ -60,7 +68,15 @@ const Navbar = () => {
                 </Link>
               );
             })}
-            <div className="lg:mt-0 mt-4 lg:-ml-2 lg:ml-4  z-50 rounded-lg bg-white">
+            {isMismatched && (
+              <button
+                className="text-purple-400 mr-4"
+                onClick={() => switchNetwork(ChainId.Polygon)}
+              >
+                Switch To Polygon
+              </button>
+            )}
+            <div className="lg:mt-0 mt-4 lg:-ml-2 lg:ml-2 z-50 rounded-lg bg-white">
               <ConnectWallet />
             </div>
           </div>
