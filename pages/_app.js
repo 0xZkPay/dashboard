@@ -1,7 +1,20 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import Navbar from "../components/Navbar";
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import { ChainId } from "@thirdweb-dev/sdk";
+
+const activeChainId = ChainId.Polygon;
+
+function App({ Component, pageProps }) {
+  return (
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <div className="bg-black lg:h-screen">
+        <Navbar />
+        <Component {...pageProps} />
+      </div>
+    </ThirdwebProvider>
+  );
 }
 
-export default MyApp
+export default App;
