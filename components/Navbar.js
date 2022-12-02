@@ -31,6 +31,7 @@ const Navbar = () => {
   return (
     <div className="z-50">
       <nav className="flex flex-row justify-between items-center flex-wrap pt-2 pl-6 pr-6 bg-transparent">
+        <h1 className="text-white text-4xl lg:ml-24">ZkPay</h1>
         <button
           className="inline-flex p-3 rounded lg:hidden text-black ml-auto hover:text-black outline-none"
           onClick={handleClick}
@@ -55,13 +56,13 @@ const Navbar = () => {
             active ? "" : "hidden"
           } w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
-          <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start -mt-8 lg:mt-4 flex flex-col lg:h-auto">
+          <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start mt-2  flex flex-col lg:h-auto">
             {address &&
               navlinks.map((item, index) => {
                 return (
                   <Link legacyBehavior key={index} href={item.path}>
                     <a
-                      className={`mr-8 mt-2 lg:mt-0 lg:mr-4 text-lg font-bold lg:font-medium ${
+                      className={`mr-8 mt-2 lg:mt-0 lg:mr-16 text-lg font-bold lg:font-medium ${
                         router.pathname === item.path
                           ? "text-gray-600"
                           : "hover:text-gray-600 text-white"
@@ -74,13 +75,13 @@ const Navbar = () => {
               })}
             {isMismatched && (
               <button
-                className="text-purple-400 mr-4"
+                className="text-purple-400 mr-12"
                 onClick={() => switchNetwork(ChainId.Polygon)}
               >
                 Switch To Polygon
               </button>
             )}
-            <div className="lg:mt-0 mt-4 lg:-ml-2 lg:ml-2 z-50 rounded-lg bg-white">
+            <div className="lg:mt-0 mt-4 lg:mr-20 z-50 rounded-lg bg-white">
               <ConnectWallet />
             </div>
           </div>
