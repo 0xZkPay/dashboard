@@ -64,8 +64,8 @@ const Navbar = () => {
                     <a
                       className={`mr-8 mt-2 lg:mt-0 lg:mr-16 text-lg font-bold lg:font-medium ${
                         router.pathname === item.path
-                          ? "text-gray-600"
-                          : "hover:text-gray-600 text-white"
+                          ? "text-white"
+                          : "hover:text-white text-gray-600"
                       }  `}
                     >
                       {item.title}
