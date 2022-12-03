@@ -1,7 +1,10 @@
 import React from "react";
 import data from "../api.json";
+import { useAddress } from "@thirdweb-dev/react";
 
 export default function Dashboard() {
+  const address = useAddress();
+
   const DisplayData = data.record.getDashboardData.txs.map((info) => {
     return (
       <tr key={info.zkAddress} className="text-white">
@@ -11,6 +14,14 @@ export default function Dashboard() {
       </tr>
     );
   });
+
+  if (!address) {
+    return (
+      <div className="flex justify-center text-white mt-8">
+        Please connect your wallet to view dashboard
+      </div>
+    );
+  }
 
   return (
     <div>
