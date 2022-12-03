@@ -2,11 +2,18 @@ export default function Home() {
   return (
     <div className="bg-black flex flex-col items-center">
       <div
-        className="flex mt-24 text-7xl font-semibold 
-            text-white ml-48 mr-48 lg:w-2/4 mb-28
+        className="flex mt-24 text-8xl font-semibold 
+            text-white ml-48 mr-48 lg:w-2/4 mb-10
             "
       >
-        Make seamless payments with BOB stablecoin and the zkBob dApp!
+        VPN For Payments
+      </div>
+      <div
+        className="flex mt-4 text-2xl font-semibold 
+            text-gray-500 ml-32 lg:w-2/4 mb-28
+            "
+      >
+        Zero Knowledge Payment Gateway for a Privacy Focused Future
       </div>
 
       <a
