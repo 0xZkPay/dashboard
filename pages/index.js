@@ -3,13 +3,13 @@ export default function Home() {
     <div className="bg-black flex flex-col items-center">
       <div
         className="flex mt-24 text-6xl font-semibold 
-            text-white ml-48 mr-48 mb-40
+            text-white ml-48 mr-48 lg:w-1/4 mb-28
             "
       >
         Make seamless payments with BOB stablecoin and the zkBob dApp!
       </div>
 
-      <a href="http://localhost:3001">
+      <a href="http://localhost:3001" target="_blank" rel="noreferrer">
         <button
           className="hover:bg-gradient-to-r
             from-indigo-500 via-purple-500 to-indigo-500
