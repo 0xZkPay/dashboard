@@ -31,7 +31,9 @@ const Navbar = () => {
   return (
     <div className="z-50">
       <nav className="flex flex-row justify-between items-center flex-wrap pt-2 pl-6 pr-6 bg-transparent">
-        <h1 className="text-white text-4xl lg:ml-24">ZkPay</h1>
+        <Link href="/">
+          <h1 className="text-white text-4xl lg:ml-24">ZkPay</h1>
+        </Link>
         <button
           className="inline-flex p-3 rounded lg:hidden text-black ml-auto hover:text-black outline-none"
           onClick={handleClick}
