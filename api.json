@@ -1,0 +1,44 @@
+{
+    "id": "638a4b12003d6444ce6124e2",
+    "record": {
+        "getKey": "0xApiKey",
+        "getPaymentStatus": {
+            "0xsuccessAddr": {
+                "status": "success"
+            },
+            "0xFailAddr": {
+                "status": "failure"
+            }
+        },
+        "withdrawAmountTo": {
+            "0xVendorZkAddr": {
+                "message": "x amount witdrawn from gateway!!"
+            },
+            "0xVendorZkEmptyAddr": {
+                "message": "no amount to withdraw!!"
+            }
+        },
+        "getAddressToPay": {
+            "54": {
+                "paymentAddress": "0xZKaddresstoPayTo"
+            }
+        },
+        "getDashboardData": {
+            "amount": 100,
+            "txs": [
+                {
+                    "zkAddress": "0xAddr",
+                    "Amount": "amount",
+                    "SKU": "HAT",
+                    "timestamp": "timeOfOrder"
+                }
+            ]
+        }
+    },
+    "metadata": {
+        "name": "test",
+        "readCountRemaining": 93,
+        "timeToExpire": 71919,
+        "createdAt": "2022-12-02T18:59:30.809Z"
+    }
+}
