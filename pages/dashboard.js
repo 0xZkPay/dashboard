@@ -26,7 +26,7 @@ export default function Dashboard() {
   return (
     <div>
       <div
-        className="flex flex-row justify-center mt-24 mb-4 text-3xl font-semibold 
+        className="flex flex-row justify-center mt-24 mb-8 text-3xl font-semibold 
             bg-gradient-to-r bg-clip-text  text-transparent 
             from-indigo-500 via-purple-500 to-indigo-500
             animate-text
@@ -35,8 +35,8 @@ export default function Dashboard() {
         Transactions
       </div>
       <div className="flex flex-col flex-grow items-center">
-        <div className="flex justify-center h-20 overflow-y-auto w-80">
-          <table class="table table-striped">
+        <div className="flex justify-center h-40 overflow-y-auto">
+          <table className="table table-auto border border-white border-separate border-spacing-x-8 border-spacing-y-4 rounded-md">
             <thead>
               <tr className="text-white">
                 <th>zkAddress</th>
