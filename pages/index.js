@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Home() {
   return (
     <div className="bg-black flex flex-col items-center">
@@ -26,7 +28,13 @@ export default function Home() {
       </a>
 
       <div className="flex justify-center mb-20">
-        <img className="w-40 lg:w-80" src="/locker.svg" alt="bob logo" />
+        <Image
+          className="w-40 lg:w-80"
+          src="/locker.svg"
+          alt="bob logo"
+          width={40}
+          height={40}
+        />
         <div
           className="flex mt-32 text-5xl font-semibold 
             text-white mr-80 ml-4 w-8
@@ -39,12 +47,18 @@ export default function Home() {
       <div className="flex mb-20">
         <div
           className="flex mt-24 text-l font-semibold 
-            text-white mr-8 mb-24
+            text-white mr-4 mb-24
             "
         >
           Powered by
         </div>
-        <img className="w-12" src="/BOB.svg" alt="bob logo" />
+        <Image
+          className="w-12"
+          src="/BOB.svg"
+          alt="bob logo"
+          width={20}
+          height={20}
+        />
       </div>
     </div>
   );
