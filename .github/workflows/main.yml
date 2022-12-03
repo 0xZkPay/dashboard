@@ -30,4 +30,4 @@ jobs:
           account: thescoho
           project: zkpay
           release: github-action-${{ env.TIMESTAMP }}
-          path: dashboard/out
+          path: out
