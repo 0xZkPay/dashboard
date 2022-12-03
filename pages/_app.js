@@ -9,7 +9,7 @@ const activeChainId = ChainId.Polygon;
 function App({ Component, pageProps }) {
   return (
     <ThirdwebProvider desiredChainId={activeChainId}>
-      <div className="bg-black lg:h-screen">
+      <div className="bg-black h-screen">
         <Navbar />
         <Component {...pageProps} />
       </div>
