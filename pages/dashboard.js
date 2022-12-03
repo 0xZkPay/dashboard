@@ -28,8 +28,8 @@ export default function Dashboard() {
       <div
         className="flex flex-row justify-center mt-24 mb-8 text-3xl font-semibold 
             bg-gradient-to-r bg-clip-text  text-transparent 
-            from-indigo-500 via-purple-500 to-indigo-500
-            animate-text
+            from-gray-500 via-gray-400 to-gray-300
+            
             "
       >
         Transactions

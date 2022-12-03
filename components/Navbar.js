@@ -32,7 +32,14 @@ const Navbar = () => {
     <div className="z-50">
       <nav className="flex flex-row justify-between items-center flex-wrap pt-2 pl-6 pr-6 bg-transparent">
         <Link href="/">
-          <h1 className="text-white text-4xl lg:ml-24">ZkPay</h1>
+          <h1
+            className="font-semibold 
+            bg-gradient-to-r bg-clip-text text-transparent 
+            from-indigo-500 via-purple-500 to-indigo-500
+            animate-text text-4xl lg:ml-24"
+          >
+            ZkPay
+          </h1>
         </Link>
         <button
           className="inline-flex p-3 rounded lg:hidden text-black ml-auto hover:text-black outline-none"
@@ -67,7 +74,7 @@ const Navbar = () => {
                       className={`mr-8 mt-2 lg:mt-0 lg:mr-16 text-lg font-bold lg:font-medium ${
                         router.pathname === item.path
                           ? "text-white"
-                          : "hover:text-white text-gray-600"
+                          : "hover:text-white text-gray-500"
                       }  `}
                     >
                       {item.title}
