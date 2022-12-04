@@ -2,6 +2,12 @@ import "../styles/globals.css";
 import Navbar from "../components/Navbar";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { useState, useEffect } from "react";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: "https://api.thegraph.com/subgraphs/name/0xzkpay/zkpay-mumbai",
+});
 
 import { ChainId } from "@thirdweb-dev/sdk";
 
@@ -33,10 +39,12 @@ function App({ Component, pageProps }) {
 
   return (
     <ThirdwebProvider desiredChainId={activeChainId}>
-      <div className="bg-black h-screen">
-        <Navbar />
-        <Component {...pageProps} />
-      </div>
+      <ApolloProvider client={client}>
+        <div className="bg-black lg:h-screen">
+          <Navbar />
+          <Component {...pageProps} />
+        </div>
+      </ApolloProvider>
     </ThirdwebProvider>
   );
 }
