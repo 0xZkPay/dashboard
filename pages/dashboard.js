@@ -49,7 +49,7 @@ export default function Dashboard() {
   return (
     <div>
       <div
-        className="flex flex-row justify-center mt-24 mb-8 text-3xl font-semibold 
+        className="flex flex-row justify-center mt-24 mb-2 text-3xl font-semibold 
             bg-gradient-to-r bg-clip-text  text-transparent 
             from-gray-500 via-gray-400 to-gray-300
             
@@ -57,9 +57,12 @@ export default function Dashboard() {
       >
         Transactions
       </div>
-      <button onClick={GetData}>Refresh</button>
+      <div className="flex justify-center">
+        <img src="/refresh.png" onClick={GetData} />
+      </div>
+
       <div className="flex flex-col flex-grow items-center">
-        <div className="flex justify-center h-40 overflow-y-auto mb-8">
+        <div className="flex justify-center h-60 overflow-y-auto mb-8">
           <table className="table table-auto border border-white border-separate border-spacing-x-8 border-spacing-y-4 rounded-md">
             <thead>
               <tr className="text-white">
@@ -87,7 +90,7 @@ export default function Dashboard() {
         >
           Withdraw
         </button>
-        <div className="overflow-hidden resize-x mt-4">
+        <div className="overflow-hidden resize-x mt-8">
           <textarea
             className="resize rounded-md text-black h-8"
             onInput={(e) => setInput(e.target.value)}
