@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 const navlinks = [
   { title: "Dashboard", path: "/dashboard" },
   { title: "Claim NFT", path: "/claim" },
+  { title: "Gallery", path: "/gallery" },
 ];
 
 const Navbar = () => {
