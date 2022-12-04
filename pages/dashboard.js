@@ -80,7 +80,7 @@ export default function Dashboard() {
             bg-gradient-to-r bg-clip-text  text-transparent 
             from-gray-500 via-gray-400 to-gray-300 flex flex-col items-center"
       >
-        Balance: {Number(data.balance) / 1000000000}
+        Balance: {Number(data.balance) / 100000000}
         <button
           className="hover:bg-gradient-to-r
             from-indigo-500 via-purple-500 to-indigo-500
