@@ -1,13 +1,11 @@
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Link from "next/link";
-import {
-  useNetworkMismatch,
-  useNetwork,
-  useAddress,
-  ChainId,
-  ConnectWallet,
-} from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
+import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  WalletMultiButton,
+  WalletDisconnectButton,
+} from "@solana/wallet-adapter-react-ui";
 
 const navlinks = [
   { title: "Dashboard", path: "/dashboard" },
@@ -17,12 +15,7 @@ const navlinks = [
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
-
-  const address = useAddress();
-
-  const [, switchNetwork] = useNetwork();
-  const isMismatched = useNetworkMismatch();
-
+  const { publicKey } = useWallet();
   const router = useRouter();
 
   const handleClick = () => {
@@ -67,7 +60,7 @@ const Navbar = () => {
           } w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start mt-2  flex flex-col lg:h-auto">
-            {address &&
+            {publicKey &&
               navlinks.map((item, index) => {
                 return (
                   <Link legacyBehavior key={index} href={item.path}>
@@ -83,16 +76,9 @@ const Navbar = () => {
                   </Link>
                 );
               })}
-            {isMismatched && (
-              <button
-                className="text-purple-400 mr-12"
-                onClick={() => switchNetwork(ChainId.Polygon)}
-              >
-                Switch To Polygon
-              </button>
-            )}
             <div className="lg:mt-0 mt-4 lg:mr-20 z-50 rounded-lg bg-white">
-              <ConnectWallet />
+              <WalletMultiButton />
+              <WalletDisconnectButton />
             </div>
           </div>
         </div>
