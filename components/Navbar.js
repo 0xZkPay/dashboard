@@ -1,102 +1,318 @@
-import { useState } from "react";
-import Link from "next/link";
-import {
-  useNetworkMismatch,
-  useNetwork,
-  useAddress,
-  ChainId,
-  ConnectWallet,
-} from "@thirdweb-dev/react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useGlobalContext } from "../contexts/GlobalContext";
+import dynamic from "next/dynamic";
+import { ed25519 } from "@noble/curves/ed25519";
+import axios from "axios";
+import bs58 from "bs58";
+import Link from "next/link";
+import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  HomeModernIcon,
+  UserCircleIcon,
+  ShoppingBagIcon,
+  ChevronDownIcon,
+  Bars3CenterLeftIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
-const navlinks = [
-  { title: "Dashboard", path: "/dashboard" },
-  { title: "Claim NFT", path: "/claim" },
-  { title: "Gallery", path: "/gallery" },
-];
+const WalletMultiButton = dynamic(
+  () =>
+    import("@solana/wallet-adapter-react-ui").then(
+      (mod) => mod.WalletMultiButton
+    ),
+  { ssr: false }
+);
 
 const Navbar = () => {
-  const [active, setActive] = useState(false);
+  const [dropdownActive, setDropdownActive] = useState(false);
+  const { publicKey, wallet, signMessage, connected } = useWallet();
+  const [authInitiated, setAuthInitiated] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false); // State for mobile nav
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [storeOpen, setStoreOpen] = useState(false);
+  const { user, fetchUserDetails, setUser } = useGlobalContext();
+  const [loading, setLoading] = useState(true);
 
-  const address = useAddress();
+  const getPasetoToken = () => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("pasetoToken");
+    }
+    return null;
+  };
 
-  const [, switchNetwork] = useNetwork();
-  const isMismatched = useNetworkMismatch();
+  const setPasetoToken = (token) => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("pasetoToken", token);
+    }
+  };
 
-  const router = useRouter();
+  useEffect(() => {
+    if (typeof window !== "undefined" && connected) {
+    fetchUserDetails(sessionStorage.getItem("pasetoToken")).then(() => {
+      setLoading(false);
+    });
+  }
+  }, [connected, getPasetoToken()]);
 
-  const handleClick = () => {
-    setActive(!active);
+  useEffect(() => {
+    if (!connected) {
+      setUser(null);
+    }
+  }, [connected]);
+
+  const handleWalletConnect = async () => {
+    setTimeout(async () => {
+      if (getPasetoToken() || authInitiated) return;
+
+      const addr = publicKey.toString();
+      try {
+        const response = await axios.post("/api/flowid", { addr });
+        const { eula, flowId } = response.data.payload;
+        const message = `${flowId}${eula}`;
+
+        if (!signMessage)
+          throw new Error("Wallet does not support message signing!");
+        const encodedMessage = new TextEncoder().encode(message);
+        const signature = await signMessage(encodedMessage);
+        if (!ed25519.verify(signature, encodedMessage, publicKey.toBytes()))
+          throw new Error("Message signature invalid!");
+
+        const name = "RandomName";
+        const city = "GenericCity";
+        const { data } = await axios.post("/api/verify", {
+          flowid: flowId,
+          public_key: addr,
+          signature: bs58.encode(signature),
+          name,
+          city,
+        });
+        setPasetoToken(data.payload.paseto_token);
+        setAuthInitiated(true);
+      } catch (error) {
+        console.error("Error during the signing process:", error);
+      }
+    }, 500);
+  };
+
+  useEffect(() => {
+    if (connected) {
+      handleWalletConnect();
+    }
+  }, [publicKey, wallet, connected]);
+
+  const router = useRouter(); // Use the useRouter hook
+
+  // Function to determine if a route is active
+  const isActiveRoute = (route) => {
+    return router.pathname === route;
+  };
+
+  const closeMobileNav = () => {
+    setIsNavOpen(false);
   };
 
   return (
-    <div className="z-50">
-      <nav className="flex flex-row justify-between items-center flex-wrap pt-2 pl-6 pr-6 bg-transparent">
+    <div className="relative z-50 bg-gray-900 text-purple-300 w-full">
+      <nav className="flex flex-row justify-between items-center flex-wrap pt-2 pl-6 pr-6">
+        <button
+          className="lg:hidden p-4"
+          onClick={() => setIsNavOpen(!isNavOpen)}
+        >
+          <Bars3CenterLeftIcon className="h-6 w-6 text-purple-300" />
+        </button>
         <Link href="/">
-          <h1
-            className="font-semibold 
-            bg-gradient-to-r bg-clip-text text-transparent 
-            from-indigo-500 via-purple-500 to-indigo-500
-            animate-text text-4xl lg:ml-24"
-          >
+          <h1 className="font-semibold text-4xl lg:ml-4 mb-2 cursor-pointer">
             ZkPay
           </h1>
         </Link>
-        <button
-          className="inline-flex p-3 rounded lg:hidden text-black ml-auto hover:text-black outline-none"
-          onClick={handleClick}
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="white"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+
+        <div className="hidden lg:flex space-x-4 ">
+          <button className="flex items-center space-x-2 cursor-pointer">
+            <Link href="/dashboard">
+              <span className="text-lg">Dashboard</span>
+            </Link>
+          </button>
+          <div
+            className="relative"
+            onMouseEnter={() => setSettingsOpen(true)}
+            onMouseLeave={() => setSettingsOpen(false)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
-        <div
-          className={`${
-            active ? "" : "hidden"
-          } w-full lg:inline-flex lg:flex-grow lg:w-auto`}
-        >
-          <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start mt-2  flex flex-col lg:h-auto">
-            {address &&
-              navlinks.map((item, index) => {
-                return (
-                  <Link legacyBehavior key={index} href={item.path}>
-                    <a
-                      className={`mr-8 mt-2 lg:mt-0 lg:mr-16 text-lg font-bold lg:font-medium ${
-                        router.pathname === item.path
-                          ? "text-white"
-                          : "hover:text-white text-gray-500"
-                      }  `}
-                    >
-                      {item.title}
-                    </a>
-                  </Link>
-                );
-              })}
-            {isMismatched && (
-              <button
-                className="text-purple-400 mr-12"
-                onClick={() => switchNetwork(ChainId.Polygon)}
-              >
-                Switch To Polygon
-              </button>
+            <button className="flex items-center space-x-2 cursor-pointer">
+              <span className="text-lg">Settings</span>
+              <ChevronDownIcon className="h-5 w-5" />
+            </button>
+            {settingsOpen && (
+              <div className="absolute left-0 w-48 bg-gray-800 border border-purple-500 rounded-md shadow-lg text-purple-300">
+                <Link
+                  href="/edit-user"
+                  className="block px-4 py-2 hover:text-purple-300"
+                >
+                  Edit User
+                </Link>
+              </div>
             )}
-            <div className="lg:mt-0 mt-4 lg:mr-20 z-50 rounded-lg bg-white">
-              <ConnectWallet />
-            </div>
+          </div>
+
+          <div
+            className="relative"
+            onMouseEnter={() => setStoreOpen(true)}
+            onMouseLeave={() => setStoreOpen(false)}
+          >
+            <button className="flex items-center space-x-2 cursor-pointer">
+              <span className="text-lg">Store</span>
+              <ChevronDownIcon className="h-5 w-5" />
+            </button>
+            {storeOpen && (
+              <div className="absolute left-0 w-48 bg-gray-800 border border-purple-500 rounded-md shadow-lg text-purple-300">
+                <Link
+                  href="/all-stores"
+                  className="block px-4 py-2 hover:text-purple-300"
+                >
+                  All Stores
+                </Link>
+                <Link
+                  href="/create-store"
+                  className="block px-4 py-2 hover:text-purple-300"
+                >
+                  Create Store
+                </Link>
+                <Link
+                  href="/update-store"
+                  className="block px-4 py-2 hover:text-purple-300"
+                >
+                  Update Store
+                </Link>
+              </div>
+            )}
           </div>
         </div>
+        <div className="relative">
+          <button onClick={() => setDropdownActive(!dropdownActive)}>
+            <img
+              src={`https://robohash.org/${publicKey}`}
+              alt="Profile"
+              className="w-10 h-10 rounded-full border-2 border-purple-500"
+            />
+          </button>
+          {dropdownActive && (
+            <div className="absolute right-0 mt-2 w-64 bg-gray-800 border border-purple-500 rounded-md shadow-lg text-purple-300">
+              <div className="py-1">
+                {loading ? (
+                  <div className="block px-4 py-2 text-sm">Loading...</div>
+                ) : (
+                  <>
+                    <div className="block px-4 py-2 text-sm border-b border-purple-400">
+                      {user?.name}
+                    </div>
+                    <div className="block px-4 py-2 text-sm border-b border-purple-400">
+                      {user?.city}
+                    </div>
+                  </>
+                )}
+                <div className="block px-4 py-2 text-sm">
+                  <WalletMultiButton className="w-full" />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
+
+      <aside
+        className={`sidebar bg-gray-800 text-purple-100 p-4 space-y-4 fixed h-full w-full top-0 left-0 z-60 lg:hidden transform ${
+          isNavOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out`}
+      >
+        <div
+          className="absolute top-5 right-6 cursor-pointer"
+          onClick={closeMobileNav}
+        >
+          <XMarkIcon className="h-6 w-6 text-purple-300 lg:hidden" />
+        </div>
+        <ul>
+          <Link
+            href="/dashboard"
+            className={`mb-2 flex items-center space-x-2 cursor-pointer p-2 rounded ${
+              isActiveRoute("/dashboard") ? "font-gray-700" : ""
+            }`}
+            onClick={closeMobileNav}
+          >
+            <HomeModernIcon className="h-6 w-6" />
+            <span className="text-lg">Dashboard</span>
+          </Link>
+          <li
+            className={`mb-2 flex items-center space-x-2 cursor-pointer p-2 rounded transition duration-300 ease-in-out ${
+              isActiveRoute("/settings") ? "bg-gray-700" : ""
+            }`}
+            onClick={() => {
+              setSettingsOpen(!settingsOpen);
+            }}
+          >
+            <UserCircleIcon className="h-6 w-6" />
+            <span className="text-lg">Settings</span>
+            <ChevronDownIcon className="h-5 w-5 ml-auto" />
+          </li>
+          {settingsOpen && (
+            <li
+              className={`pl-6 ${
+                isActiveRoute("/edit-user") ? "bg-gray-700" : ""
+              }`}
+              onClick={closeMobileNav}
+            >
+              <Link
+                href="/edit-user"
+                className="block py-1 hover:text-purple-300 mb-2"
+              >
+                Edit User
+              </Link>
+            </li>
+          )}
+          <li
+            className={`mb-2 flex items-center space-x-2 cursor-pointer p-2 rounded transition duration-300 ease-in-out ${
+              isActiveRoute("/store") ? "bg-gray-700" : ""
+            }`}
+            onClick={() => {
+              setStoreOpen(!storeOpen);
+            }}
+          >
+            <ShoppingBagIcon className="h-6 w-6" />
+            <span className="text-lg">Store</span>
+            <ChevronDownIcon className="h-5 w-5 ml-auto" />
+          </li>
+          {storeOpen && (
+            <div className="pl-6 space-y-2">
+              <Link
+                href="/all-stores"
+                className={`block py-1 hover:text-purple-300 ${
+                  isActiveRoute("/all-stores") ? "bg-gray-700" : ""
+                }`}
+                onClick={closeMobileNav}
+              >
+                All Stores
+              </Link>
+              <Link
+                href="/create-store"
+                className={`block py-1 hover:text-purple-300 ${
+                  isActiveRoute("/create-store") ? "bg-gray-700" : ""
+                }`}
+                onClick={closeMobileNav}
+              >
+                Create Store
+              </Link>
+              <Link
+                href="/update-store"
+                className={`block py-1 hover:text-purple-300 ${
+                  isActiveRoute("/update-store") ? "bg-gray-700" : ""
+                }`}
+                onClick={closeMobileNav}
+              >
+                Update Store
+              </Link>
+            </div>
+          )}
+        </ul>
+      </aside>
     </div>
   );
 };

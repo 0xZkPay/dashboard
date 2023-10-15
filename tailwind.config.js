@@ -29,6 +29,15 @@ module.exports = {
           800: "#282828",
           900: "#101010",
         },
+        blue: {
+          dark: '#0a3d62',
+          default: '#3c6382',
+          light: '#82ccdd',
+        },
+      },
+      spacing: {
+        '72': '18rem',
+        '80': '20rem',
       },
       animation: {
         text: "text 5s ease infinite",

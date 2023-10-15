@@ -1,18 +1,10 @@
 export default function Home() {
   return (
-    <div className="bg-black flex flex-col items-center">
-      <div
-        className="flex mt-24 text-8xl font-semibold 
-            text-white ml-48 mr-48 lg:w-2/4 mb-10
-            "
-      >
+    <div className="bg-black flex flex-col items-center min-h-screen py-10">
+      <div className="text-8xl font-semibold text-white text-center max-w-2xl mt-24 mb-10">
         VPN For Payments
       </div>
-      <div
-        className="flex mt-4 text-2xl font-semibold 
-            text-gray-500 ml-32 lg:w-2/4 mb-28
-            "
-      >
+      <div className="text-2xl font-semibold text-gray-500 text-center max-w-xl mt-4 mb-28">
         Zero Knowledge Payment Gateway for a Privacy Focused Future
       </div>
 
@@ -32,23 +24,15 @@ export default function Home() {
         </button>
       </a>
 
-      <div className="flex justify-center mb-20">
-        <img className="w-40 lg:w-80" src="/locker.svg" alt="bob logo" />
-        <div
-          className="flex mt-32 text-5xl font-semibold 
-            text-white mr-80 ml-4 w-8
-            "
-        >
+      <div className="flex flex-col md:flex-row justify-center items-center mb-20">
+        <img className="w-40 lg:w-80 mb-8 md:mb-0" src="/locker.svg" alt="locker logo" />
+        <div className="text-5xl font-semibold text-white ml-4 text-center">
           Anonymous payments
         </div>
       </div>
 
-      <div className="flex mb-20">
-        <div
-          className="flex mt-24 text-l font-semibold 
-            text-white mr-4 mb-24
-            "
-        >
+      <div className="flex items-center mb-20">
+        <div className="text-xl font-semibold text-white mr-4">
           Powered by
         </div>
         <img className="w-12" src="/BOB.svg" alt="bob logo" />

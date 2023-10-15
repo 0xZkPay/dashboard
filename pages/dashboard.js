@@ -1,104 +1,83 @@
-import React, { useEffect, useState } from "react";
-import { useAddress } from "@thirdweb-dev/react";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
-export default function Dashboard() {
-  const address = useAddress();
+function Dashboard() {
+  const [user, setUser] = useState(null);
+  const [merchants, setMerchants] = useState([]);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [storeOpen, setStoreOpen] = useState(false);
+  const [payments, setPayments] = useState([]);
+  const router = useRouter();
 
-  const [data, setData] = useState({ transactions: [] });
-  const [input, setInput] = useState("");
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const pasetoToken = sessionStorage.getItem('pasetoToken');
+        const { data } = await axios.get('/api/getUser', {
+          headers: {
+            authorization: pasetoToken
+          }
+        });
+        setUser(data.payload.user);
+      } catch (error) {
+        console.error('Failed to fetch user details:', error);
+      }
+    };
 
-  const API_URL = "http://localhost:9081";
+    const fetchMerchants = async () => {
+      try {
+        const pasetoToken = sessionStorage.getItem('pasetoToken');
+        const { data } = await axios.get('/api/getMerchants', {
+          headers: {
+            'authorization': pasetoToken
+          }
+        });
+        setMerchants(data.payload.merchants);
+      } catch (error) {
+        console.error('Failed to fetch merchants:', error);
+      }
+    };
 
-  const GetData = () => {
-    fetch(API_URL + `/getDashboardData/${localStorage.getItem("api_key")}`)
-      .then((res) => res.json())
-      .then((json) => {
-        setData(json);
-      });
-    //
-  };
+    const fetchPayments = async () => {
+      try {
+        const pasetoToken = sessionStorage.getItem('pasetoToken');
+        const { data } = await axios.get('/api/getPayments', {
+          headers: {
+            authorization: pasetoToken
+          }
+        });
+        setPayments(data.payload.payments);
+      } catch (error) {
+        console.error('Failed to fetch payments:', error);
+      }
+    };
 
-  const withDrawFunds = () => {
-    fetch(
-      API_URL + `/withdrawAmountTo/${input}/${localStorage.getItem("api_key")}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        alert(json.message);
-      });
-  };
-
-  const DisplayData = data.transactions.map((transaction) => {
-    return (
-      <tr key={transaction.zkAddress} className="text-white">
-        <td>{transaction.zkAddress}</td>
-        <td>{Number(transaction.amount) / 1000000000} BOB</td>
-        <td>{transaction.timestamp}</td>
-      </tr>
-    );
-  });
-
-  if (!address) {
-    return (
-      <div className="flex justify-center text-white mt-8">
-        Please connect your wallet to view dashboard
-      </div>
-    );
-  }
+    fetchUser();
+    fetchMerchants();
+    fetchPayments();
+  }, []);
 
   return (
-    <div>
-      <div
-        className="flex flex-row justify-center mt-24 mb-2 text-3xl font-semibold 
-            bg-gradient-to-r bg-clip-text  text-transparent 
-            from-gray-500 via-gray-400 to-gray-300
-            
-            "
-      >
-        Transactions
-      </div>
-      <div className="flex justify-center">
-        <img src="/refresh.png" onClick={GetData} />
-      </div>
-
-      <div className="flex flex-col flex-grow items-center">
-        <div className="flex justify-center h-60 overflow-y-auto mb-8">
-          <table className="table table-auto border border-white border-separate border-spacing-x-8 border-spacing-y-4 rounded-md">
-            <thead>
-              <tr className="text-white">
-                <th>zkAddress</th>
-                <th>Amount</th>
-                <th>timestamp</th>
-              </tr>
-            </thead>
-            <tbody>{data !== null && data !== undefined && DisplayData}</tbody>
-          </table>
-        </div>
-      </div>
-      <div
-        className="text-3xl font-semibold overflow-hidden
-            bg-gradient-to-r bg-clip-text  text-transparent 
-            from-gray-500 via-gray-400 to-gray-300 flex flex-col items-center"
-      >
-        Balance: {Number(data.balance) / 100000000}
-        <button
-          className="hover:bg-gradient-to-r
-            from-indigo-500 via-purple-500 to-indigo-500
-            animate-text bg-gradient-to-r from gray-500 via gray-400 to-gray-300
-            text-white border-indigo-500 border-2 rounded-lg p-4 shadow-lg font-bold mt-4"
-          onClick={() => withDrawFunds(input)}
-        >
-          Withdraw
-        </button>
-        <div className="overflow-hidden resize-x mt-8">
-          <textarea
-            className="resize rounded-md text-black h-8"
-            onInput={(e) => setInput(e.target.value)}
-            value={input}
-            placeholder={"Enter ZK address"}
-          ></textarea>
-        </div>
-      </div>
+    <div className="flex h-screen relative overflow-hidden justify-center">
+      <main className=" p-4  lg:ml-1/5 lg:pl-1/5 ">
+        <section className="mt-1 mb-6">
+          <h2 className="text-2xl font-semibold mb-4 lg:ml-16 text-purple-300">Payments</h2>
+          <ul>
+            {payments.map(payment => (
+              <li key={payment.receiving_addr} className="mb-4 p-4 bg-gray-800 shadow rounded text-purple-300">
+                <h3 className="text-xl font-medium">{payment.product_name}</h3>
+                <p>Receiving Address: {payment.receiving_addr}</p>
+                <p>Amount: {payment.amount}</p>
+                <p>Status: {payment.status}</p>
+                <p>Product ID: {payment.product_id}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
     </div>
   );
 }
+
+export default Dashboard;
