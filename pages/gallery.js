@@ -1,4 +1,3 @@
-import { useAddress } from "@thirdweb-dev/react";
 import { useQuery, gql } from "@apollo/client";
 import { useState } from "react";
 
