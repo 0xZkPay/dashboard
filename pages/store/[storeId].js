@@ -40,6 +40,19 @@ const StoreDetails = () => {
     }
   }, [storeId]);
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'success':
+        return 'text-green-500';
+      case 'cancelled':
+        return 'text-red-500';
+      case 'pending':
+        return 'text-yellow-500';
+      default:
+        return 'text-gray-500';
+    }
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto p-6 bg-gray-800">
       {loading ? (
@@ -58,7 +71,7 @@ const StoreDetails = () => {
                 Product: {payment.product_name} ({payment.product_id}) <br />
                 Amount: {payment.amount / 1e9} SOL <br />
                 Receiving Address: {payment.receiving_addr} <br />
-                Status: {payment.status}
+                Status: <span className={getStatusColor(payment.status)}>{payment.status}</span>
               </li>
             ))}
           </ul>

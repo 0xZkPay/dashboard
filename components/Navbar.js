@@ -78,8 +78,8 @@ const Navbar = () => {
         if (!ed25519.verify(signature, encodedMessage, publicKey.toBytes()))
           throw new Error("Message signature invalid!");
 
-        const name = "RandomName";
-        const city = "GenericCity";
+        const name = "John Doe";
+        const city = "Nashville";
         const { data } = await axios.post("/api/verify", {
           flowid: flowId,
           public_key: addr,
@@ -123,16 +123,12 @@ const Navbar = () => {
         </button>
         <Link href="/">
           <h1 className="font-semibold text-4xl lg:ml-4 mb-2 cursor-pointer">
-            ZkPay
+            zkPay
           </h1>
         </Link>
 
         <div className="hidden lg:flex space-x-4 ">
-          <button className="flex items-center space-x-2 cursor-pointer">
-            <Link href="/dashboard">
-              <span className="text-lg">Dashboard</span>
-            </Link>
-          </button>
+          
           <div
             className="relative"
             onMouseEnter={() => setSettingsOpen(true)}
@@ -231,43 +227,8 @@ const Navbar = () => {
           <XMarkIcon className="h-6 w-6 text-purple-300 lg:hidden" />
         </div>
         <ul>
-          <Link
-            href="/dashboard"
-            className={`mb-2 flex items-center space-x-2 cursor-pointer p-2 rounded ${
-              isActiveRoute("/dashboard") ? "font-gray-700" : ""
-            }`}
-            onClick={closeMobileNav}
-          >
-            <HomeModernIcon className="h-6 w-6" />
-            <span className="text-lg">Dashboard</span>
-          </Link>
-          <li
-            className={`mb-2 flex items-center space-x-2 cursor-pointer p-2 rounded transition duration-300 ease-in-out ${
-              isActiveRoute("/settings") ? "bg-gray-700" : ""
-            }`}
-            onClick={() => {
-              setSettingsOpen(!settingsOpen);
-            }}
-          >
-            <UserCircleIcon className="h-6 w-6" />
-            <span className="text-lg">Settings</span>
-            <ChevronDownIcon className="h-5 w-5 ml-auto" />
-          </li>
-          {settingsOpen && (
-            <li
-              className={`pl-6 ${
-                isActiveRoute("/edit-user") ? "bg-gray-700" : ""
-              }`}
-              onClick={closeMobileNav}
-            >
-              <Link
-                href="/edit-user"
-                className="block py-1 hover:text-purple-300 mb-2"
-              >
-                Edit User
-              </Link>
-            </li>
-          )}
+          
+          
           <li
             className={`mb-2 flex items-center space-x-2 cursor-pointer p-2 rounded transition duration-300 ease-in-out ${
               isActiveRoute("/store") ? "bg-gray-700" : ""
@@ -310,6 +271,33 @@ const Navbar = () => {
                 Update Store
               </Link>
             </div>
+          )}
+          <li
+            className={`mb-2 mt-2 flex items-center space-x-2 cursor-pointer p-2 rounded transition duration-300 ease-in-out ${
+              isActiveRoute("/settings") ? "bg-gray-700" : ""
+            }`}
+            onClick={() => {
+              setSettingsOpen(!settingsOpen);
+            }}
+          >
+            <UserCircleIcon className="h-6 w-6" />
+            <span className="text-lg ">Settings</span>
+            <ChevronDownIcon className="h-5 w-5 ml-auto" />
+          </li>
+          {settingsOpen && (
+            <li
+              className={`pl-6 ${
+                isActiveRoute("/edit-user") ? "bg-gray-700" : ""
+              }`}
+              onClick={closeMobileNav}
+            >
+              <Link
+                href="/edit-user"
+                className="block py-1 hover:text-purple-300 mb-2"
+              >
+                Edit User
+              </Link>
+            </li>
           )}
         </ul>
       </aside>

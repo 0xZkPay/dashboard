@@ -33,9 +33,10 @@ export default function Home() {
 
       <div className="flex items-center mb-20">
         <div className="text-xl font-semibold text-white mr-4">
-          Powered by
+          Powered by Elusive
         </div>
         <img className="w-12" src="/BOB.svg" alt="bob logo" />
+        
       </div>
     </div>
   );

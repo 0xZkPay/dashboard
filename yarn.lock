@@ -512,12 +512,51 @@
     "@solana/wallet-adapter-base" "^0.9.17"
     js-base64 "^3.7.2"
 
+"@solana/buffer-layout-utils@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@solana/buffer-layout-utils/-/buffer-layout-utils-0.2.0.tgz#b45a6cab3293a2eb7597cceb474f229889d875ca"
+  integrity sha512-szG4sxgJGktbuZYDg2FfNmkMi0DYQoVjN2h7ta1W1hPrwzarcFLBq9UpX1UjNXsNpT9dn+chgprtWGioUAr4/g==
+  dependencies:
+    "@solana/buffer-layout" "^4.0.0"
+    "@solana/web3.js" "^1.32.0"
+    bigint-buffer "^1.1.5"
+    bignumber.js "^9.0.1"
+
 "@solana/buffer-layout@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@solana/buffer-layout/-/buffer-layout-4.0.1.tgz#b996235eaec15b1e0b5092a8ed6028df77fa6c15"
   integrity sha512-E1ImOIAD1tBZFRdjeM4/pzTiTApC0AOBGwyAMS4fwIodCWArzJ3DWdoh8cKxeFM2fElkxBh2Aqts1BPC373rHA==
   dependencies:
     buffer "~6.0.3"
+
+"@solana/pay@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@solana/pay/-/pay-0.2.5.tgz#c2895d9a255614096b7dccf59b332ded83de9604"
+  integrity sha512-Olz1Tdq9hOD/KW8A6hyYR12gn2JfnP1lLTlpMtXniSinjcqG+zttCYvJFrf6itLIUSsmqokF8NGzrdZqK/GnSA==
+  dependencies:
+    "@solana/qr-code-styling" "^1.6.0"
+    "@solana/spl-token" "^0.3.5"
+    "@solana/web3.js" "^1.61.0"
+    bignumber.js "^9.1.0"
+    cross-fetch "^3.1.5"
+    js-base64 "^3.7.2"
+    tweetnacl "^1.0.3"
+
+"@solana/qr-code-styling@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@solana/qr-code-styling/-/qr-code-styling-1.6.0.tgz#8693bae79ace4b81135e032ee0b60f1ad739c3ef"
+  integrity sha512-KyBmyFKPxQPhUkP0jjnxV2ZeF1R1guTD8Hrd0YvHvMnhtrNEoEEdv4Jpp4W0GN4qCGG2KYOM5d3TgoLD+CNf9Q==
+  dependencies:
+    qrcode-generator "^1.4.3"
+
+"@solana/spl-token@^0.3.5":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@solana/spl-token/-/spl-token-0.3.8.tgz#8e9515ea876e40a4cc1040af865f61fc51d27edf"
+  integrity sha512-ogwGDcunP9Lkj+9CODOWMiVJEdRtqHAtX2rWF62KxnnSWtMZtV9rDhTrZFshiyJmxDnRL/1nKE1yJHg4jjs3gg==
+  dependencies:
+    "@solana/buffer-layout" "^4.0.0"
+    "@solana/buffer-layout-utils" "^0.2.0"
+    buffer "^6.0.3"
 
 "@solana/wallet-adapter-alpha@^0.1.10":
   version "0.1.10"
@@ -918,7 +957,7 @@
     "@wallet-standard/app" "^1.0.1"
     "@wallet-standard/base" "^1.0.1"
 
-"@solana/web3.js@^1.36.0", "@solana/web3.js@^1.44.3", "@solana/web3.js@^1.63.1", "@solana/web3.js@^1.87.0":
+"@solana/web3.js@^1.32.0", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.44.3", "@solana/web3.js@^1.61.0", "@solana/web3.js@^1.63.1", "@solana/web3.js@^1.87.0":
   version "1.87.1"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.87.1.tgz#da376cebbc4cc97ece0cb028d799163ea147f299"
   integrity sha512-E8Y9bNlZ8TQlhOvCx1b7jG+TjA4SJLVwufmIk1+tcQctUhK5HiB1Q8ljd4yQDkFlk6OOeAlAeqvW0YntWJU94Q==
@@ -1867,7 +1906,7 @@ bigint-buffer@^1.1.5:
   dependencies:
     bindings "^1.3.0"
 
-bignumber.js@^9.0.1, bignumber.js@^9.1.1:
+bignumber.js@^9.0.1, bignumber.js@^9.1.0, bignumber.js@^9.1.1:
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.1.2.tgz#b7c4242259c008903b13707983b5f4bbd31eda0c"
   integrity sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==
@@ -2239,6 +2278,13 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cross-fetch@^3.1.5:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
+  integrity sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==
+  dependencies:
+    node-fetch "^2.6.12"
 
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
@@ -4158,6 +4204,11 @@ qr.js@0.0.0:
   resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
   integrity sha512-c4iYnWb+k2E+vYpRimHqSu575b1/wKl4XFeJGpFmrJQz5I88v9aY2czh7s0w36srfCM1sXgC/xpoJz5dJfq+OQ==
 
+qrcode-generator@^1.4.3:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/qrcode-generator/-/qrcode-generator-1.4.4.tgz#63f771224854759329a99048806a53ed278740e7"
+  integrity sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==
+
 qrcode.react@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-1.0.1.tgz#2834bb50e5e275ffe5af6906eff15391fe9e38a5"
@@ -4844,6 +4895,11 @@ tsutils@^3.21.0:
   integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"
+
+tweetnacl@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.3.tgz#ac0af71680458d8a6378d0d0d050ab1407d35596"
+  integrity sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
